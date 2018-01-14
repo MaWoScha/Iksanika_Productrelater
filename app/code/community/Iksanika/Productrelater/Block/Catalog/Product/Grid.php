@@ -285,7 +285,7 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
                 'index' => 'related_ids',
                 'width'=>'80px',
                 'filter_condition_callback' => array($this, '_applyMyFilter'),
-                'header'=> Mage::helper('catalog')->__('Related IDs'),
+                'header'=> Mage::helper('productrelater')->__('Related IDs'),
         ));
         $this->addColumn('cross_sell_ids',
             array(
@@ -293,7 +293,7 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
                 'index' => 'cross_sell_ids',
                 'width'=>'80px',
                 'filter_condition_callback' => array($this, '_applyMyFilter'),
-                'header'=> Mage::helper('catalog')->__('Cross-Sell IDs'),
+                'header'=> Mage::helper('productrelater')->__('Cross-Sell IDs'),
         ));
         $this->addColumn('up_sell_ids',
             array(
@@ -301,7 +301,7 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
                 'index' => 'up_sell_ids',
                 'width'=>'80px',
                 'filter_condition_callback' => array($this, '_applyMyFilter'),
-                'header'=> Mage::helper('catalog')->__('Up-Sell IDs'),
+                'header'=> Mage::helper('productrelater')->__('Up-Sell IDs'),
         ));
         
         $this->addColumn('action',

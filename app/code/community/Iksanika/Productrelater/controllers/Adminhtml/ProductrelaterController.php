@@ -191,7 +191,7 @@ class Iksanika_Productrelater_Adminhtml_ProductrelaterController extends Mage_Ad
                     }
                     $product->save();
                 }
-                $this->_getSession()->addSuccess($this->__('Total of %d record(s) were successfully related to products('.$productIds2List.').', count($productIds)));
+                $this->_getSession()->addSuccess($this->__('Total of %d record(s) were successfully related to products(%s).', count($productIds), $productIds2List));
             } catch (Exception $e) 
             {
                 $this->_getSession()->addError($e->getMessage());
@@ -306,7 +306,7 @@ class Iksanika_Productrelater_Adminhtml_ProductrelaterController extends Mage_Ad
                     }
                     $product->save();
                 }
-                $this->_getSession()->addSuccess($this->__('Total of %d record(s) were successfully set as cross-sells by products('.$productIds2List.').', count($productIds)));
+                $this->_getSession()->addSuccess($this->__('Total of %d record(s) were successfully set as cross-sells by products(%s).', count($productIds), $productIds2List));
             } catch (Exception $e) 
             {
                 $this->_getSession()->addError($e->getMessage());
@@ -383,7 +383,7 @@ class Iksanika_Productrelater_Adminhtml_ProductrelaterController extends Mage_Ad
                     }
                     $product->save();
                 }
-                $this->_getSession()->addSuccess($this->__('Total of %d record(s) are now up-sold by products('.$productIds2List.').', count($productIds)));
+                $this->_getSession()->addSuccess($this->__('Total of %d record(s) are now up-sold by products(%s).', count($productIds), $productIds2List));
             } catch (Exception $e) 
             {
                 $this->_getSession()->addError($e->getMessage());

@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Iksanika_Productrelater>
-            <version>1.0.2</version>
+            <version>1.0.4</version>
         </Iksanika_Productrelater>
     </modules>
     <admin>
@@ -75,8 +75,15 @@
                 </children>
             </catalog>
         </menu>
-    </adminhtml>
-    <adminhtml>
+        <translate>
+            <modules>
+                <Iksanika_Productrelater>
+                    <files>
+                        <productrelater>Iksanika_Productrelater.csv</productrelater>
+                    </files>
+                </Iksanika_Productrelater>
+            </modules>
+        </translate>
         <acl>
             <resources>
                 <all>

@@ -11,7 +11,7 @@
 * Mass Product Relater actions: Mass Relating Products: One-way relate, multi-relate, or un-relate Mass Cross-selling Products: Mass cross-selling products: One-way cross-sell, multi-cross-sell, or un-cross-sell Mass Up-selling Products: One-way up-sell, un-up-sell</description>
    <license>IKS-LICENSE</license>
    <license_uri>http://www.iksanika.com/products/IKS-LICENSE.txt</license_uri>
-   <version>1.0.3</version>
+   <version>1.0.4</version>
    <stability>stable</stability>
    <notes>SUPEE routing fixes</notes>
    <authors>
@@ -66,6 +66,9 @@
          <target>mageetc</target>
          <target>mage</target>
          <target>magemedia</target>
+         <target>magelocale</target>
+         <target>magelocale</target>
+         <target>magelocale</target>
       </target>
       <path>
          <path/>
@@ -75,6 +78,9 @@
          <path>modules/Iksanika_Productrelater.xml</path>
          <path>js/Iksanika/productrelater</path>
          <path>iksanika/productrelater</path>
+         <path>de_DE/Iksanika_Productrelater.csv</path>
+         <path>en_US/Iksanika_Productrelater.csv</path>
+         <path>es_ES/Iksanika_Productrelater.csv</path>
       </path>
       <type>
          <type>file</type>
@@ -84,8 +90,14 @@
          <type>file</type>
          <type>dir</type>
          <type>dir</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
       </type>
       <include>
+         <include/>
+         <include/>
+         <include/>
          <include/>
          <include/>
          <include/>
@@ -96,6 +108,9 @@
       </include>
       <ignore>
          <ignore/>
+         <ignore>#^.DS_Store#</ignore>
+         <ignore>#^.DS_Store#</ignore>
+         <ignore>#^.DS_Store#</ignore>
          <ignore>#^.DS_Store#</ignore>
          <ignore>#^.DS_Store#</ignore>
          <ignore>#^.DS_Store#</ignore>
