@@ -18,7 +18,7 @@
 
 class Iksanika_Productrelater_Block_Catalog_Product extends Mage_Adminhtml_Block_Catalog_Product
 {
-    
+
     public function __construct()
     {
         parent::__construct();

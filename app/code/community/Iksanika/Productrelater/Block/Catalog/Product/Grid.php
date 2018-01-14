@@ -19,25 +19,24 @@
 class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Productrelater_Block_Widget_Grid
 {
     protected static $columnType = array(
-        'id'                    =>  array('type'=>'number'),
-        'product'               =>  array('type'=>'checkbox'),
-        'name'                  =>  array('type'=>'text'),
-        'type_id'               =>  array('type'=>'text'),
-        'attribute_set_id'      =>  array('type'=>'text'),
-        'sku'                   =>  array('type'=>'text'),
-        'price'                 =>  array('type'=>'text'),
-        'qty'                   =>  array('type'=>'text'),
-        'is_in_stock'           =>  array('type'=>'text'),
-        'visibility'            =>  array('type'=>'text'),
-        'status'                =>  array('type'=>'text'),
-        'websites'              =>  array('type'=>'text'),
+        'id'                    => array('type' => 'number'),
+        'product'               => array('type' => 'checkbox'),
+        'name'                  => array('type' => 'text'),
+        'type_id'               => array('type' => 'text'),
+        'attribute_set_id'      => array('type' => 'text'),
+        'sku'                   => array('type' => 'text'),
+        'price'                 => array('type' => 'text'),
+        'qty'                   => array('type' => 'text'),
+        'is_in_stock'           => array('type' => 'text'),
+        'visibility'            => array('type' => 'text'),
+        'status'                => array('type' => 'text'),
+        'websites'              => array('type' => 'text'),
 
-        'related_ids'           =>  array('type'=>'input'),
-        'cross_sell_ids'        =>  array('type'=>'input'),
-        'up_sell_ids'           =>  array('type'=>'input'),
+        'related_ids'           => array('type' => 'input'),
+        'cross_sell_ids'        => array('type' => 'input'),
+        'up_sell_ids'           => array('type' => 'input'),
     );
-    
-    
+
     public function __construct()
     {
         parent::__construct();
@@ -48,8 +47,8 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
         $this->setTemplate('iksanika/productrelater/catalog/product/grid.phtml');
         $this->setMassactionBlockName('productrelater/widget_grid_massaction');
     }
-    
-    private function prepareDefaults() 
+
+    private function prepareDefaults()
     {
         $this->setDefaultLimit(20);
         $this->setDefaultPage(1);
@@ -59,18 +58,17 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
 
     protected function _prepareCollection()
     {
-        
         $collection = $this->getCollection();
         $collection = !$collection ? Mage::getModel('catalog/product')->getCollection() : $collection;
 
         $store = $this->_getStore();
         $collection
             ->joinField(
-                'qty', 
-                'cataloginventory/stock_item', 
-                'qty', 
-                'product_id=entity_id', 
-                '{{table}}.stock_id=1', 
+                'qty',
+                'cataloginventory/stock_item',
+                'qty',
+                'product_id=entity_id',
+                '{{table}}.stock_id=1',
                 'left')
             ->joinField(
                 'related_ids',
@@ -96,8 +94,7 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
 
         $collection->groupByAttribute('entity_id');
 
-        if ($store->getId())
-        {
+        if ($store->getId()) {
             //$collection->setStoreId($store->getId());
             $collection->addStoreFilter($store);
             $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $store->getId());
@@ -111,33 +108,31 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
             $collection->addAttributeToSelect('visibility');
         }
         
-        foreach(self::$columnType as $col => $true) 
-        {
-            if($col == 'related_ids' || $col == 'cross_sell_ids' || $col == 'up_sell_ids')
-            { 
+        foreach (self::$columnType as $col => $true) {
+            if ($col == 'related_ids' || $col == 'cross_sell_ids' || $col == 'up_sell_ids') {
                 $filter = $this->getParam($this->getVarNameFilter());
-                if($filter)
-                {
+                if ($filter) {
                     $filter_data = Mage::helper('adminhtml')->prepareFilterString($filter);
-                    if(isset($filter_data[$col]))
-                    {
-                        if(trim($filter_data[$col])=='')
+                    if (isset($filter_data[$col])) {
+                        if (trim($filter_data[$col]) == '') {
                             continue;
+                        }
                         $relatedIds = explode(',', $filter_data[$col]);
                         $relatedIdsArray = array();
-                        foreach($relatedIds as $relatedId)
-                        {
+                        foreach ($relatedIds as $relatedId) {
                             //$collection->addCategoryFilter(Mage::getModel('catalog/category')->load($categoryId));
                             $relatedIdsArray[] = intval($relatedId);
                         }
-                        $collection->addAttributeToFilter($col, array( 'in' => $relatedIdsArray));                        
+                        $collection->addAttributeToFilter($col, array('in' => $relatedIdsArray));
                     }
                 }
             }
-            if($col == 'qty' || $col == 'websites' || $col=='id'|| $col=='related_ids'|| $col=='cross_sell_ids'|| $col=='up_sell_ids') 
+            if ($col == 'qty' || $col == 'websites' || $col == 'id' || $col == 'related_ids' || $col == 'cross_sell_ids' || $col == 'up_sell_ids') {
                 continue;
-            else
+            }
+            else {
                 $collection->addAttributeToSelect($col);
+            }
         }
 
         $this->setCollection($collection);
@@ -148,7 +143,6 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
 
         return $this;
     }
-
 
     protected function _getStore()
     {
@@ -182,34 +176,34 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
         
         $this->addColumn('id',
             array(
-                'header'=> Mage::helper('catalog')->__('ID'),
-                'width' => '50px',
-                'type'  => 'number',
-                'index' => 'entity_id',
+                'header' => Mage::helper('catalog')->__('ID'),
+                'width'  => '50px',
+                'type'   => 'number',
+                'index'  => 'entity_id',
         ));
         $this->addColumn('name',
             array(
-                'header'=> Mage::helper('catalog')->__('Name'),
-                'name' => 'pu_name[]',
-                'index' => 'name'/*,
-                'width' => '150px'*/
+                'header' => Mage::helper('catalog')->__('Name'),
+                'name'   => 'pu_name[]',
+                'index'  => 'name'/*,
+                'width'  => '150px'*/
         ));
         $store = $this->_getStore();
         if ($store->getId()) {
             $this->addColumn('custom_name',
                 array(
-                    'header'=> Mage::helper('catalog')->__('Name In %s', $store->getName()),
-                    'index' => 'custom_name',
-                    'width' => '150px'
+                    'header' => Mage::helper('catalog')->__('Name In %s', $store->getName()),
+                    'index'  => 'custom_name',
+                    'width'  => '150px'
             ));
         }
         /*
         $this->addColumn('type',
             array(
-                'header'=> Mage::helper('catalog')->__('Type'),
-                'width' => '60px',
-                'index' => 'type_id',
-                'type' => 'options',
+                'header'  => Mage::helper('catalog')->__('Type'),
+                'width'   => '60px',
+                'index'   => 'type_id',
+                'type'    => 'options',
                 'options' => Mage::getSingleton('catalog/product_type')->getOptionArray(),
         ));
          */
@@ -221,87 +215,87 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('catalog')->__('Attrib. Set Name'),
-                'width' => '100px',
-                'index' => 'attribute_set_id',
-                'type' => 'options',
+                'header'  => Mage::helper('catalog')->__('Attrib. Set Name'),
+                'width'   => '100px',
+                'index'   => 'attribute_set_id',
+                'type'    => 'options',
                 'options' => $sets,
         ));
          */
         $this->addColumn('sku',
             array(
-                'header'=> Mage::helper('catalog')->__('SKU'),
-                'width' => '80px',
-                'index' => 'sku',
-                'name' => 'pu_sku[]',
+                'header' => Mage::helper('catalog')->__('SKU'),
+                'width'  => '80px',
+                'index'  => 'sku',
+                'name'   => 'pu_sku[]',
         ));
         $this->addColumn('price',
             array(
-                'header'=> Mage::helper('catalog')->__('Price'),
-                'type'  => 'price',
+                'header'        => Mage::helper('catalog')->__('Price'),
+                'type'          => 'price',
                 'currency_code' => $store->getBaseCurrency()->getCode(),
-                'index' => 'price',
-                'name' => 'pu_price[]',
+                'index'         => 'price',
+                'name'          => 'pu_price[]',
         ));
         $this->addColumn('qty',
             array(
-                'header'=> Mage::helper('catalog')->__('Qty'),
-                'width' => '100px',
-                'type'  => 'number',
-                'index' => 'qty',
-                'name' => 'pu_qty[]',
+                'header' => Mage::helper('catalog')->__('Qty'),
+                'width'  => '100px',
+                'type'   => 'number',
+                'index'  => 'qty',
+                'name'   => 'pu_qty[]',
         ));
         $this->addColumn('visibility',
             array(
-                'header'=> Mage::helper('catalog')->__('Visibility'),
-                'width' => '70px',
-                'index' => 'visibility',
-                'type'  => 'options',
+                'header'  => Mage::helper('catalog')->__('Visibility'),
+                'width'   => '70px',
+                'index'   => 'visibility',
+                'type'    => 'options',
                 'options' => Mage::getModel('catalog/product_visibility')->getOptionArray(),
         ));
         $this->addColumn('status',
             array(
-                'header'=> Mage::helper('catalog')->__('Status'),
-                'width' => '70px',
-                'index' => 'status',
-                'type'  => 'options',
+                'header'  => Mage::helper('catalog')->__('Status'),
+                'width'   => '70px',
+                'index'   => 'status',
+                'type'    => 'options',
                 'options' => Mage::getSingleton('catalog/product_status')->getOptionArray(),
         ));
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('websites',
                 array(
-                    'header'=> Mage::helper('catalog')->__('Websites'),
-                    'width' => '100px',
-                    'sortable'  => false,
-                    'index'     => 'websites',
-                    'type'      => 'options',
-                    'options'   => Mage::getModel('core/website')->getCollection()->toOptionHash(),
+                    'header'   => Mage::helper('catalog')->__('Websites'),
+                    'width'    => '100px',
+                    'sortable' => false,
+                    'index'    => 'websites',
+                    'type'     => 'options',
+                    'options'  => Mage::getModel('core/website')->getCollection()->toOptionHash(),
             ));
         }
 
         $this->addColumn('related_ids',
             array(
-                'type'=>'input',
-                'index' => 'related_ids',
-                'width'=>'80px',
+                'type'                      =>'input',
+                'index'                     => 'related_ids',
+                'width'                     =>'80px',
                 'filter_condition_callback' => array($this, '_applyMyFilter'),
-                'header'=> Mage::helper('productrelater')->__('Related IDs'),
+                'header'                    => Mage::helper('productrelater')->__('Related IDs'),
         ));
         $this->addColumn('cross_sell_ids',
             array(
-                'type'=>'input',
-                'index' => 'cross_sell_ids',
-                'width'=>'80px',
+                'type'                      =>'input',
+                'index'                     => 'cross_sell_ids',
+                'width'                     =>'80px',
                 'filter_condition_callback' => array($this, '_applyMyFilter'),
-                'header'=> Mage::helper('productrelater')->__('Cross-Sell IDs'),
+                'header'                    => Mage::helper('productrelater')->__('Cross-Sell IDs'),
         ));
         $this->addColumn('up_sell_ids',
             array(
-                'type'=>'input',
-                'index' => 'up_sell_ids',
-                'width'=>'80px',
+                'type'                      =>'input',
+                'index'                     => 'up_sell_ids',
+                'width'                     =>'80px',
                 'filter_condition_callback' => array($this, '_applyMyFilter'),
-                'header'=> Mage::helper('productrelater')->__('Up-Sell IDs'),
+                'header'                    => Mage::helper('productrelater')->__('Up-Sell IDs'),
         ));
         
         $this->addColumn('action',
@@ -316,10 +310,10 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
                 'actions'   => array(
                     array(
                         'caption' => Mage::helper('catalog')->__('Edit'),
-                        'id' => "editlink",
+                        'id'      => "editlink",
                         'url'     => array(
-                            'base'=>'adminhtml/*/edit',
-                            'params'=>array('store'=>$this->getRequest()->getParam('store'))
+                            'base'   =>'adminhtml/*/edit',
+                            'params' =>array('store'=>$this->getRequest()->getParam('store'))
                         ),
                         'field'   => 'id'
                     )
@@ -339,8 +333,8 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
         $this->getMassactionBlock()->setFormFieldName('product');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> Mage::helper('catalog')->__('Delete'),
-             'url'  => $this->getUrl('*/*/massDelete'),
+             'label'   => Mage::helper('catalog')->__('Delete'),
+             'url'     => $this->getUrl('*/*/massDelete'),
              'confirm' => Mage::helper('catalog')->__('Are you sure?')
         ));
 
@@ -349,23 +343,23 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         
         $this->getMassactionBlock()->addItem('status', array(
-             'label'=> Mage::helper('catalog')->__('Change status'),
-             'url'  => $this->getUrl('*/*/massStatus', array('_current' => true)),
+             'label'      => Mage::helper('catalog')->__('Change status'),
+             'url'        => $this->getUrl('*/*/massStatus', array('_current' => true)),
              'additional' => array(
-                    'visibility' => array(
-                         'name' => 'status',
-                         'type' => 'select',
-                         'class' => 'required-entry',
-                         'label' => Mage::helper('catalog')->__('Status'),
+                    'visibility'  => array(
+                         'name'   => 'status',
+                         'type'   => 'select',
+                         'class'  => 'required-entry',
+                         'label'  => Mage::helper('catalog')->__('Status'),
                          'values' => $statuses
                      )
              )
         ));
         
-        $this->getMassactionBlock()->addItem('attributes', 
+        $this->getMassactionBlock()->addItem('attributes',
             array(
                 'label' => Mage::helper('catalog')->__('Update attributes'),
-                'url'   => $this->getUrl('*/catalog_product_action_attribute/edit', array('_current'=>true))
+                'url'   => $this->getUrl('*/catalog_product_action_attribute/edit', array('_current' => true))
                 )
         );
 
@@ -374,97 +368,94 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
         /*
          * Prepare list of column for update
          */
-        $this->getMassactionBlock()->addItem('save', 
+        $this->getMassactionBlock()->addItem('save',
             array(
-                'label' => Mage::helper('catalog')->__('Update'),
-                'url'   => $this->getUrl('*/*/massUpdateProducts', array('_current'=>true)),
-                'fields' => array(0=>'product', 1=>'related_ids', 2=> 'cross_sell_ids', 3=> 'up_sell_ids')
+                'label'  => Mage::helper('catalog')->__('Update'),
+                'url'    => $this->getUrl('*/*/massUpdateProducts', array('_current' => true)),
+                'fields' => array(0 => 'product', 1 => 'related_ids', 2 => 'cross_sell_ids', 3 => 'up_sell_ids')
             )
         );
-        
-        
+
         $this->getMassactionBlock()->addItem('relatedDivider', $this->getCleanDivider());
 
-        $this->getMassactionBlock()->addItem('otherDividerSalesMotivation', $this->getDivider("Product Relator"));
+        $this->getMassactionBlock()->addItem('otherDividerSalesMotivation', $this->getDivider('Product Relator'));
         
         $this->getMassactionBlock()->addItem('relatedEachOther', array(
-            'label' => $this->__('Related: To Each Other'),
-            'url'   => $this->getUrl('*/*/massRelatedEachOther', array('_current'=>true)),
+            'label'    => $this->__('Related: To Each Other'),
+            'url'      => $this->getUrl('*/*/massRelatedEachOther', array('_current' => true)),
             'callback' => 'specifyRelatedEachOther()',
         ));
         $this->getMassactionBlock()->addItem('relatedTo', array(
-            'label' => $this->__('Related: Add ..'),
-            'url'   => $this->getUrl('*/*/massRelatedTo', array('_current'=>true)),
+            'label'    => $this->__('Related: Add ..'),
+            'url'      => $this->getUrl('*/*/massRelatedTo', array('_current' => true)),
             'callback' => 'specifyRelatedProducts()'
         ));
         $this->getMassactionBlock()->addItem('relatedClean', array(
-            'label' => $this->__('Related: Clear'),
-            'url'   => $this->getUrl('*/*/massRelatedClean', array('_current'=>true)),
+            'label'    => $this->__('Related: Clear'),
+            'url'      => $this->getUrl('*/*/massRelatedClean', array('_current' => true)),
             'callback' => 'specifyRelatedClean()'
         ));
-        
-        
+
         $this->getMassactionBlock()->addItem('crossSellDivider', $this->getCleanDivider());
 
         $this->getMassactionBlock()->addItem('crossSellEachOther', array(
-            'label' => $this->__('Cross-Sell: To Each Other'),
-            'url'   => $this->getUrl('*/*/massCrossSellEachOther', array('_current'=>true)),
+            'label'    => $this->__('Cross-Sell: To Each Other'),
+            'url'      => $this->getUrl('*/*/massCrossSellEachOther', array('_current' => true)),
             'callback' => 'specifyCrossSellEachOther()',
         ));
         $this->getMassactionBlock()->addItem('crossSellTo', array(
-            'label' => $this->__('Cross-Sell: Add ..'),
-            'url'   => $this->getUrl('*/*/massCrossSellTo', array('_current'=>true)),
-                'callback' => 'chooseWhatToCrossSellTo()'
+            'label'    => $this->__('Cross-Sell: Add ..'),
+            'url'      => $this->getUrl('*/*/massCrossSellTo', array('_current' => true)),
+            'callback' => 'chooseWhatToCrossSellTo()'
         ));
         $this->getMassactionBlock()->addItem('crossSellClear', array(
-            'label' => $this->__('Cross-Sell: Clear'),
-            'url'   => $this->getUrl('*/*/massCrossSellClear', array('_current'=>true)),
+            'label'    => $this->__('Cross-Sell: Clear'),
+            'url'      => $this->getUrl('*/*/massCrossSellClear', array('_current' => true)),
             'callback' => 'specifyCrossSellClean()',
         ));
-        
-        
+
         $this->getMassactionBlock()->addItem('upSellDivider', $this->getCleanDivider());
             
         $this->getMassactionBlock()->addItem('upSellTo', array(
-            'label' => $this->__('Up-Sells: Add ..'),
-            'url'   => $this->getUrl('*/*/massUpSellTo', array('_current'=>true)),
-                'callback' => 'chooseWhatToUpSellTo()'
+            'label'    => $this->__('Up-Sells: Add ..'),
+            'url'      => $this->getUrl('*/*/massUpSellTo', array('_current' => true)),
+            'callback' => 'chooseWhatToUpSellTo()'
         ));
         $this->getMassactionBlock()->addItem('upSellClear', array(
-            'label' => $this->__('Up-Sells: Clear'),
-            'url'   => $this->getUrl('*/*/massUpSellClear', array('_current'=>true)),
+            'label'    => $this->__('Up-Sells: Clear'),
+            'url'      => $this->getUrl('*/*/massUpSellClear', array('_current' => true)),
             'callback' => 'specifyUpSellClean()',
         ));
-        
+
         return $this;
     }
-    
+
     public function getRowUrl($row)
     {
         return $this->getUrl('adminhtml/catalog_product/edit', array(
-            'store'=>$this->getRequest()->getParam('store'),
-            'id'=>$row->getId())
+            'store' => $this->getRequest()->getParam('store'),
+            'id'    => $row->getId())
         );
     }
-    
+
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('*/*/grid', array('_current' => true));
     }
-    
-    protected function getDivider($divider="*******") {
+
+    protected function getDivider($divider = '*******') {
         $dividerTemplate = array(
-          'label' => '********'.$this->__($divider).'********',
-          'url'   => $this->getUrl('*/*/index', array('_current'=>true)),
+          'label'    => '********' .$this->__($divider) . '********',
+          'url'      => $this->getUrl('*/*/index', array('_current' => true)),
           'callback' => "null"
         );
         return $dividerTemplate;
     }
 
-    protected function getSubDivider($divider="-------") {
+    protected function getSubDivider($divider = '-------') {
         $dividerTemplate = array(
-          'label' => '--------'.$this->__($divider).'--------',
-          'url'   => $this->getUrl('*/*/index', array('_current'=>true)),
+          'label'    => '--------' . $this->__($divider) . '--------',
+          'url'      => $this->getUrl('*/*/index', array('_current' => true)),
           'callback' => "null"
         );
         return $dividerTemplate;
@@ -472,12 +463,11 @@ class Iksanika_Productrelater_Block_Catalog_Product_Grid extends Iksanika_Produc
 
     protected function getCleanDivider() {
         $dividerTemplate = array(
-          'label' => ' ',
-          'url'   => $this->getUrl('*/*/index', array('_current'=>true)),
+          'label'    => ' ',
+          'url'      => $this->getUrl('*/*/index', array('_current' => true)),
           'callback' => "null"
         );
         return $dividerTemplate;
     }
-    
-    
+
 }
