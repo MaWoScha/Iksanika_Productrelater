@@ -100,11 +100,14 @@ class Iksanika_Productrelater_Catalog_ProductController extends Mage_Adminhtml_C
             $position = null;
             $ratio = null;
             if (count($split) > 1) {
-                $ratio = $split[1];
+                $position = $split[1];
+                if (count($split) > 2) {
+                    $ratio = $split[2];
+                }
             }
 
             if ($productId != $relatedToId) {
-                $link[$relatedToId] = array('position' => null, 'ratio' => $ratio);
+                $link[$relatedToId] = array('position' => $position, 'ratio' => $ratio);
             }
         }
         // Fetch and append to already related products.
