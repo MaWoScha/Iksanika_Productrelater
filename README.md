@@ -1,15 +1,31 @@
 Iksanika Productrelater
 ===========
 
+Start saving up to 98% of your time and grow revenue up to an additional 60% on cross-sell, up-sell and related products in your Magento store today!
+
+Maintaining up-sell, cross-sell, and related products in good order will significantly improve your ecommerce business results and metrics. Up-sell, cross-sell, and related products stimulate your customers to add additional and costly products to their cart and thus place bigger orders. So you will increase the life time value and average order value and as a result revenue meaning more profit for you.
+
+Mass Product Relator creates up-sell, cross-sell, or related products links fast. The extension creates cross links between products while they are being assigned as up-sell, cross-sell, or related products.
+
+Core features:
+-------------
+
+One page bulk products update with in-grid editable fields for up-sell, cross-sell, and related products IDs fields/ columns add, change, delete up-sell, cross-sell, and related products on one page with one click update for big list of products.
+
+Mass Product Relater actions:
+-------------
+
+* Mass Relating Products: One-way relate, multi-relate, or un-relate
+* Mass Cross-selling Products: One-way cross-sell, multi-cross-sell, or un-cross-sell
+* Mass Up-selling Products: One-way up-sell, un-up-sell
+
+To make bulk/ mass update on up-sell, cross-sell, or related products relations you need to change the editable fields in editable columns, select products for update by checking theВ products row or CTRL+Click on products row, and select "Update" (or choose required algorithm actions for add/ update/ un-relate) and "Submit".
+
 Mass assign up-sell, cross-sell and related products easily - hands, 2-way, multi-way algorithms available.
 
 
 Description:
 -------------
-
-Save up to 98% of your time and grow up revenue up to additional 40% on cross-, up- and related - sell products in your Magento store.
-* One Page Bulk Products Update With In-grid Editable Fields for Up-Sell, Cross-Sell and Related products ids fields which allow you easy filter by cross-sell,up-sell, related products and add, change, delete cross-sell,up-sell, related products on one page for list of products and with one click update feature.
-* Mass Product Relater actions: Mass Relating Products: One-way relate, multi-relate, or un-relate Mass Cross-selling Products: Mass cross-selling products: One-way cross-sell, multi-cross-sell, or un-cross-sell Mass Up-selling Products: One-way up-sell, un-up-sell</description>
 
 * SUPEE resolved
 * Localization available: de_DE, es_ES
