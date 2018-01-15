@@ -1,0 +1,6 @@
+app/code/community/Iksanika/Productrelater   app/code/community/Iksanika/Productrelater
+app/design/adminhtml/default/default/template/iksanika/productrelater   app/design/adminhtml/default/default/template/iksanika/productrelater
+app/design/adminhtml/default/default/layout/iksanika_productrelater.xml   app/design/adminhtml/default/default/layout/iksanika_productrelater.xml
+app/etc/modules/Iksanika_Productrelater.xml   app/etc/modules/Iksanika_Productrelater.xml
+js/iksanika/productrelater   js/iksanika/productrelater
+media/iksanika/productrelater   media/iksanika/productrelater
