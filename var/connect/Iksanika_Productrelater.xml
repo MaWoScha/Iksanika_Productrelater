@@ -11,7 +11,7 @@
 * Mass Product Relater actions: Mass Relating Products: One-way relate, multi-relate, or un-relate Mass Cross-selling Products: Mass cross-selling products: One-way cross-sell, multi-cross-sell, or un-cross-sell Mass Up-selling Products: One-way up-sell, un-up-sell</description>
    <license>IKS-LICENSE</license>
    <license_uri>http://www.iksanika.com/products/IKS-LICENSE.txt</license_uri>
-   <version>1.1.2</version>
+   <version>1.1.3</version>
    <stability>stable</stability>
    <notes>SUPEE routing fixes</notes>
    <authors>

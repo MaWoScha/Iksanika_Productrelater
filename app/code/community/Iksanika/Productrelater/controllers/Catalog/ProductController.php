@@ -106,6 +106,11 @@ class Iksanika_Productrelater_Catalog_ProductController extends Mage_Adminhtml_C
                 }
             }
 
+            $product = Mage::getModel('catalog/product')->load($relatedToId);
+            if (!$product->getId()) {
+                throw new Exception("You are trying to add a product that does not exist. ($relatedToId)<br><br>Request:<br>$relatedToIdSplit");
+            }
+
             if ($productId != $relatedToId) {
                 $link[$relatedToId] = array('position' => $position, 'ratio' => $ratio);
             }
@@ -113,7 +118,12 @@ class Iksanika_Productrelater_Catalog_ProductController extends Mage_Adminhtml_C
         // Fetch and append to already related products.
         foreach ($existProducts as $existProduct) {
             if (!isset($link[$existProduct->getId()])) {
-                $link[$existProduct->getId()] = array('position' => null);
+                $eposition = $existProduct->getPosition();
+                $eratio = $existProduct->getRatio();
+                if (($eposition != null) && ($eposition >= $position)) {
+                    $eposition = (string)($eposition + 1);
+                }
+                $link[$existProduct->getId()] = array('position' => $eposition, 'ratio' => $eratio);
             }
         }
 
