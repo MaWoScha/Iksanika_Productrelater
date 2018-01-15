@@ -233,7 +233,7 @@ class Iksanika_Productrelater_Catalog_ProductController extends Mage_Adminhtml_C
                     }
                     $product->save();
                 }
-                $this->_getSession()->addSuccess($this->__('Total of %d record(s) were successfully unrelated to products('.$productIds2List.').', count($productIds)));
+                $this->_getSession()->addSuccess($this->__('Total of %d record(s) were successfully unrelated to products(%s).', count($productIds), $productIds2List));
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
