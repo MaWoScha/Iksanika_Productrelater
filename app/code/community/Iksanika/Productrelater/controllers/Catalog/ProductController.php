@@ -129,6 +129,24 @@ class Iksanika_Productrelater_Catalog_ProductController extends Mage_Adminhtml_C
 
         return $link;
     }
+    public function removeRelatedLinks($productIds, $existProducts, $productId)
+    {
+        $link = array();
+        foreach ($existProducts as $existProduct) {
+            $position = $existProduct->getPosition();
+            $ratio = $existProduct->getRatio();
+            $link[$existProduct->getId()] = array('position' => $position, 'ratio' => $ratio);
+        }
+        foreach ($productIds as $relatedToId) {
+            if ($productId != $relatedToId) {
+                if (isset($link[$relatedToId])) {
+                    unset($link[$relatedToId]);
+                }
+            }
+        }
+
+        return $link;
+    }
 
 
      /**************************************************************************
@@ -186,6 +204,36 @@ class Iksanika_Productrelater_Catalog_ProductController extends Mage_Adminhtml_C
                     $product->save();
                 }
                 $this->_getSession()->addSuccess($this->__('Total of %d record(s) were successfully related to products(%s).', count($productIds), $productIds2List));
+            } catch (Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+        } else {
+            $this->_getSession()->addError($this->__('Please select product(s)').'. '.$this->__('You should select checkboxes for each product row which should be updated. You can click on checkboxes or use CTRL+Click on product row which should be selected.'));
+        }
+        $this->_redirect('*/*/index');
+    }
+
+
+    /**
+     * Action remove all relation in checked products list.
+     **/
+    public function massRelatedRemoveAction()
+    {
+        $productIds = $this->getRequest()->getParam('product');
+        $productIds2List = $this->getRequest()->getParam('callbackval');
+        $productIds2 = explode(',', $productIds2List);
+        if (is_array($productIds)) {
+            try {
+                foreach ($productIds as $productId) {
+                    $product = Mage::getModel('catalog/product')->load($productId);
+                    $link = $this->removeRelatedLinks($productIds2, $product->getRelatedProducts(), $productId);
+                    $product->setRelatedLinkData($link);
+                    if ($this->massactionEventDispatchEnabled) {
+                        Mage::dispatchEvent('catalog_product_prepare_save', array('product' => $product, 'request' => $this->getRequest()));
+                    }
+                    $product->save();
+                }
+                $this->_getSession()->addSuccess($this->__('Total of %d record(s) were successfully unrelated to products('.$productIds2List.').', count($productIds)));
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
